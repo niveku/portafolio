@@ -666,11 +666,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <li>
         LinkedIn:
         <a
-          href="https://www.linkedin.com/in/kevinjhenao/"
+          href="https://www.linkedin.com/in/kevinhenaolopez/"
           target="_blank"
           rel="noopener noreferrer"
         >
-          linkedin.com/in/kevinjhenao
+          linkedin.com/in/kevinhenaolopez
         </a>
       </li>
       <li>
@@ -1445,6 +1445,6 @@ git push
 - Custom domain — deferred
 - Analytics, CMS, contact form — out of scope
 
-**LinkedIn URL:** Task 8 uses `linkedin.com/in/kevinjhenao` — verify this matches Kevin's actual LinkedIn handle before publishing.
+**LinkedIn URL:** `linkedin.com/in/kevinhenaolopez` — confirmed by user.
 
 **GitHub URL:** Task 8 uses `github.com/niveku` — verify before publishing.
