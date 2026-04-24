@@ -1,7 +1,70 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import PostCard from '../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+const allProjects = await getCollection('projects');
+const featuredProjects = allProjects
+  .filter((p) => p.data.featured)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const allPosts = await getCollection('blog');
+const latestPosts = allPosts
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
 ---
 
-<BaseLayout title="Home">
-  <h1>Coming soon</h1>
+<BaseLayout
+  title="Home"
+  description="Geoscientist turned data & GIS engineer. Building spatial workflows, AI tools, and automation systems."
+>
+  <section>
+    <h1>Kevin Henao</h1>
+    <p>
+      Geoscientist turned data &amp; GIS engineer. Building spatial workflows,
+      AI tools, and automation systems from Bogotá, Colombia — remote-first.
+    </p>
+    <nav aria-label="Primary actions">
+      <a href="/about">About me</a>
+      <a href="/projects">See all projects</a>
+    </nav>
+  </section>
+
+  {featuredProjects.length > 0 && (
+    <section>
+      <h2>Featured Projects</h2>
+      <div>
+        {featuredProjects.map((project) => (
+          <ProjectCard
+            title={project.data.title}
+            summary={project.data.summary}
+            category={project.data.category}
+            stack={project.data.stack}
+            slug={project.id}
+          />
+        ))}
+      </div>
+      <a href="/projects">All projects →</a>
+    </section>
+  )}
+
+  {latestPosts.length > 0 && (
+    <section>
+      <h2>Latest Posts</h2>
+      <div>
+        {latestPosts.map((post) => (
+          <PostCard
+            title={post.data.title}
+            summary={post.data.summary}
+            date={post.data.date}
+            tags={post.data.tags}
+            slug={post.id}
+          />
+        ))}
+      </div>
+      <a href="/blog">All posts →</a>
+    </section>
+  )}
 </BaseLayout>
