@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+
+const allProjects = await getCollection('projects');
+const sorted = allProjects.sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const categories = ['All', 'Geospatial', 'Data Engineering', 'AI/Automation'] as const;
+---
+
+<BaseLayout title="Projects" description="Geospatial, data engineering, and AI/automation projects by Kevin Henao.">
+  <section>
+    <h1>Projects</h1>
+    <p>
+      A selection of professional and personal projects across geospatial data,
+      data engineering, and AI-assisted automation.
+    </p>
+
+    <nav aria-label="Filter by category">
+      {categories.map((cat) => (
+        <button data-filter={cat === 'All' ? '' : cat}>
+          {cat}
+        </button>
+      ))}
+    </nav>
+
+    <div id="projects-grid">
+      {sorted.map((project) => (
+        <ProjectCard
+          title={project.data.title}
+          summary={project.data.summary}
+          category={project.data.category}
+          stack={project.data.stack}
+          slug={project.id}
+        />
+      ))}
+    </div>
+  </section>
+
+  <script>
+    const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+    const cards = document.querySelectorAll<HTMLElement>('[data-category]');
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const filter = btn.dataset.filter ?? '';
+        cards.forEach((card) => {
+          const visible = filter === '' || card.dataset.category === filter;
+          card.style.display = visible ? '' : 'none';
+        });
+      });
+    });
+  </script>
+</BaseLayout>
