@@ -1,0 +1,25 @@
+---
+interface Props {
+  title: string;
+  summary: string;
+  category: string;
+  stack: string[];
+  slug: string;
+}
+
+const { title, summary, category, stack, slug } = Astro.props;
+---
+
+<article data-category={category}>
+  <span>{category}</span>
+  <h2>
+    <a href={`/projects/${slug}`}>{title}</a>
+  </h2>
+  <p>{summary}</p>
+  <ul>
+    {stack.slice(0, 4).map((tech) => (
+      <li>{tech}</li>
+    ))}
+    {stack.length > 4 && <li>+{stack.length - 4} more</li>}
+  </ul>
+</article>
